@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JavaScript: Переменные (const, let, var) и Типы данных (Number, String)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: #0d1117;
+      color: #e6edf3;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      line-height: 1.6;
+      padding-bottom: 60px;
+    }
+
+    .container {
+      max-width: 1040px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    header {
+      border-bottom: 1px solid #30363d;
+      background-color: #161b22;
+      padding: 18px 0;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    .nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 800;
+      font-size: 1.15rem;
+    }
+
+    .js-badge {
+      background-color: #f7df1e;
+      color: #0d1117;
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 800;
+      padding: 4px 8px;
+      border-radius: 6px;
+      font-size: 1rem;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 18px;
+      list-style: none;
+      flex-wrap: wrap;
+    }
+
+    .nav-links a {
+      color: #8b949e;
+      text-decoration: none;
+      font-size: 0.92rem;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover {
+      color: #f7df1e;
+    }
+
+    .hero {
+      padding: 64px 0 48px;
+      text-align: center;
+      border-bottom: 1px solid #30363d;
+    }
+
+    .tag {
+      display: inline-block;
+      background-color: rgba(247, 223, 30, 0.12);
+      color: #f7df1e;
+      border: 1px solid rgba(247, 223, 30, 0.3);
+      padding: 6px 14px;
+      border-radius: 999px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin-bottom: 20px;
+    }
+
+    h1 {
+      font-size: 2.6rem;
+      font-weight: 800;
+      line-height: 1.2;
+      margin-bottom: 16px;
+      letter-spacing: -0.02em;
+    }
+
+    h1 span {
+      color: #f7df1e;
+    }
+
+    .hero p {
+      color: #8b949e;
+      font-size: 1.12rem;
+      max-width: 720px;
+      margin: 0 auto;
+    }
+
+    section {
+      padding: 48px 0;
+      border-bottom: 1px solid #30363d;
+    }
+
+    section:last-of-type {
+      border-bottom: none;
+    }
+
+    h2 {
+      font-size: 1.85rem;
+      font-weight: 700;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .section-desc {
+      color: #8b949e;
+      margin-bottom: 28px;
+      font-size: 1.05rem;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 24px;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+      gap: 20px;
+    }
+
+    .card {
+      background-color: #161b22;
+      border: 1px solid #30363d;
+      border-radius: 12px;
+      padding: 24px;
+      transition: border-color 0.2s, transform 0.2s;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .card:hover {
+      border-color: #484f58;
+      transform: translateY(-2px);
+    }
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 14px;
+      gap: 8px;
+    }
+
+    .type-title {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 1.35rem;
+      font-weight: 700;
+    }
+
+    .color-num { color: #58a6ff; }
+    .color-str { color: #7ee787; }
+    .color-const { color: #d2a8ff; }
+    .color-let { color: #ffa657; }
+    .color-var { color: #ff7b72; }
+    .color-yellow { color: #f7df1e; }
+
+    .pill {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.74rem;
+      padding: 4px 10px;
+      border-radius: 6px;
+      background-color: #21262d;
+      color: #8b949e;
+      border: 1px solid #30363d;
+      white-space: nowrap;
+    }
+
+    .pill-good {
+      color: #7ee787;
+      border-color: rgba(126, 231, 135, 0.35);
+      background-color: rgba(126, 231, 135, 0.08);
+    }
+
+    .pill-old {
+      color: #ff7b72;
+      border-color: rgba(255, 123, 114, 0.35);
+      background-color: rgba(255, 123, 114, 0.08);
+    }
+
+    .card p {
+      color: #c9d1d9;
+      margin-bottom: 16px;
+      font-size: 0.95rem;
+    }
+
+    .code-box {
+      background-color: #0d1117;
+      border: 1px solid #30363d;
+      border-radius: 8px;
+      padding: 15px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.86rem;
+      overflow-x: auto;
+      line-height: 1.7;
+      margin-top: auto;
+    }
+
+    .kw { color: #ff7b72; }
+    .var { color: #ffa657; }
+    .num { color: #79c0ff; }
+    .str { color: #a5d6ff; }
+    .com { color: #8b949e; font-style: italic; }
+    .err { color: #ff7b72; text-decoration: underline wavy #ff7b72; }
+
+    .feature-list {
+      list-style: none;
+      margin-top: 4px;
+      margin-bottom: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 9px;
+    }
+
+    .feature-list li {
+      font-size: 0.92rem;
+      color: #c9d1d9;
+      padding-left: 18px;
+      position: relative;
+    }
+
+    .feature-list li::before {
+      content: "→";
+      position: absolute;
+      left: 0;
+      color: #f7df1e;
+    }
+
+    code {
+      font-family: 'JetBrains Mono', monospace;
+      background-color: #21262d;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 0.88em;
+      color: #f0f6fc;
+    }
+
+    .table-wrap {
+      overflow-x: auto;
+      margin-top: 24px;
+      border-radius: 12px;
+      border: 1px solid #30363d;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background-color: #161b22;
+    }
+
+    th, td {
+      padding: 14px 18px;
+      text-align: left;
+      border-bottom: 1px solid #30363d;
+      font-size: 0.94rem;
+    }
+
+    th {
+      background-color: #21262d;
+      font-weight: 600;
+      color: #f0f6fc;
+    }
+
+    tr:last-child td {
+      border-bottom: none;
+    }
+
+    .yes { color: #7ee787; font-weight: 600; }
+    .no { color: #ff7b72; font-weight: 600; }
+
+    .info-banner {
+      background-color: rgba(247, 223, 30, 0.07);
+      border: 1px solid rgba(247, 223, 30, 0.25);
+      border-radius: 10px;
+      padding: 16px 20px;
+      margin-top: 24px;
+      color: #e6edf3;
+      font-size: 0.95rem;
+    }
+
+    .info-banner strong {
+      color: #f7df1e;
+    }
+
+    .types-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 14px;
+    }
+
+    .mini-card {
+      background-color: #161b22;
+      border: 1px solid #30363d;
+      border-radius: 10px;
+      padding: 16px;
+    }
+
+    .mini-card strong {
+      display: block;
+      font-family: 'JetBrains Mono', monospace;
+      color: #f7df1e;
+      margin-bottom: 6px;
+      font-size: 1rem;
+    }
+
+    .mini-card span {
+      color: #8b949e;
+      font-size: 0.88rem;
+    }
+
+    footer {
+      text-align: center;
+      padding-top: 32px;
+      color: #8b949e;
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="container nav">
+      <div class="logo">
+        <span class="js-badge">JS</span>
+        <span>Справочник: Переменные &amp; Типы данных</span>
+      </div>
+      <ul class="nav-links">
+        <li><a href="#variables">const / let / var</a></li>
+        <li><a href="#number">Number</a></li>
+        <li><a href="#string">String</a></li>
+        <li><a href="#compare">5 vs "5"</a></li>
+        <li><a href="#all-types">Все 8 типов</a></li>
+      </ul>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="hero">
+      <div class="tag">Теория для начинающих • Чистый HTML &amp; CSS</div>
+      <h1>Основы <span>JavaScript</span>: Переменные и Типы данных</h1>
+      <p>
+        Любая программа на JavaScript хранит информацию в <strong>переменных</strong> (<code>const</code>, <code>let</code>, <code>var</code>), а сама информация делится на <strong>типы данных</strong>, главные из которых — <code>Number</code> и <code>String</code>.
+      </p>
+    </div>
+
+    <!-- РАЗДЕЛ 1: ПЕРЕМЕННЫЕ -->
+    <section id="variables">
+      <h2><span class="color-yellow">01.</span> Переменные: const, let и var</h2>
+      <p class="section-desc">
+        Переменная — это «коробка» с именем, в которую программа кладёт данные (число, строку и т. д.), чтобы использовать их позже. В JS есть три способа создать переменную:
+      </p>
+
+      <div class="grid-3">
+        <!-- CONST -->
+        <div class="card">
+          <div class="card-header">
+            <span class="type-title color-const">const</span>
+            <span class="pill pill-good">Используй по умолчанию</span>
+          </div>
+          <p>
+            Сокращение от <em>constant</em> (константа). Создаёт переменную, значение которой <strong>нельзя перезаписать</strong>.
+          </p>
+          <ul class="feature-list">
+            <li>Обязательно нужно сразу задать значение при создании.</li>
+            <li>Защищает код от случайных изменений важных данных.</li>
+            <li>Работает только внутри своего блока <code>{ ... }</code>.</li>
+          </ul>
+          <div class="code-box">
+            <span class="kw">const</span> <span class="var">birthYear</span> = <span class="num">2013</span>;<br>
+            <span class="var">birthYear</span> = <span class="num">2014</span>; <span class="com">// ❌ Ошибка! Нельзя менять</span>
+          </div>
+        </div>
+
+        <!-- LET -->
+        <div class="card">
+          <div class="card-header">
+            <span class="type-title color-let">let</span>
+            <span class="pill pill-good">Для меняющихся данных</span>
+          </div>
+          <p>
+            Современный способ создать переменную, значение которой <strong>можно менять</strong> по ходу работы программы.
+          </p>
+          <ul class="feature-list">
+            <li>Подходит для счётчиков, очков в игре, возраста.</li>
+            <li>Нельзя объявить две переменные с одинаковым именем в одном блоке.</li>
+            <li>Видна только внутри фигурных скобок <code>{ ... }</code>, где создана.</li>
+          </ul>
+          <div class="code-box">
+            <span class="kw">let</span> <span class="var">score</span> = <span class="num">0</span>;<br>
+            <span class="var">score</span> = <span class="num">10</span>; <span class="com">// ✅ Работает! Теперь score = 10</span>
+          </div>
+        </div>
+
+        <!-- VAR -->
+        <div class="card">
+          <div class="card-header">
+            <span class="type-title color-var">var</span>
+            <span class="pill pill-old">Устаревший способ</span>
+          </div>
+          <p>
+            Старый способ создания переменных из ранних версий JS (до 2015 года). Сейчас в новых проектах <strong>не используется</strong>.
+          </p>
+          <ul class="feature-list">
+            <li>Игнорирует блоки <code>if</code> и циклы — «протекает» наружу.</li>
+            <li>Разрешает случайно создать переменную с тем же именем заново.</li>
+            <li>Всплывает вверх кода (<em>hoisting</em>), из-за чего вызывает путаницу.</li>
+          </ul>
+          <div class="code-box">
+            <span class="kw">var</span> <span class="var">name</span> = <span class="str">"Али"</span>;<br>
+            <span class="kw">var</span> <span class="var">name</span> = <span class="str">"Омар"</span>; <span class="com">// ⚠️ Перезаписал без ошибки</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Сводная таблица по переменным -->
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Характеристика</th>
+              <th><code>const</code></th>
+              <th><code>let</code></th>
+              <th><code>var</code></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Можно ли изменить значение?</td>
+              <td class="no">Нет</td>
+              <td class="yes">Да</td>
+              <td class="yes">Да</td>
+            </tr>
+            <tr>
+              <td>Можно ли объявить заново с тем же именем?</td>
+              <td class="no">Нет (ошибка)</td>
+              <td class="no">Нет (ошибка)</td>
+              <td class="yes">Да (опасно)</td>
+            </tr>
+            <tr>
+              <td>Область видимости</td>
+              <td>Блочная <code>{ }</code></td>
+              <td>Блочная <code>{ }</code></td>
+              <td>Функциональная (устарело)</td>
+            </tr>
+            <tr>
+              <td>Когда применять?</td>
+              <td>Всегда, если значение не меняется</td>
+              <td>Когда значение будет меняться</td>
+              <td>Никогда (только в старом коде)</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="info-banner">
+        <strong>Главное правило современных разработчиков:</strong> всегда пиши <code>const</code>. Если позже поймёшь, что значение переменной должно меняться — поменяй <code>const</code> на <code>let</code>. Про <code>var</code> нужно знать только для чтения чужого старого кода.
+      </div>
+    </section>
+
+    <!-- РАЗДЕЛ 2: NUMBER -->
+    <section id="number">
+      <h2><span class="color-num">02.</span> Тип данных Number (Число)</h2>
+      <p class="section-desc">
+        В JavaScript нет разделения на целые и дробные числа — для всех математических значений используется единый тип <code>Number</code>.
+      </p>
+
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-header">
+            <span class="type-title color-num">Number</span>
+            <span class="pill">typeof 42 === "number"</span>
+          </div>
+          <p>
+            Числа пишутся <strong>без кавычек</strong>. С ними можно выполнять любые арифметические операции: сложение, вычитание, умножение, деление и возведение в степень.
+          </p>
+          <div class="code-box">
+            <span class="kw">const</span> <span class="var">age</span> = <span class="num">13</span>; <span class="com">// целое число</span><br>
+            <span class="kw">const</span> <span class="var">price</span> = <span class="num">99.95</span>; <span class="com">// дробное (через точку)</span><br>
+            <span class="kw">let</span> <span class="var">sum</span> = <span class="num">10</span> + <span class="num">5</span> * <span class="num">2</span>; <span class="com">// результат: 20</span>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <span class="type-title color-num">Специальные числа</span>
+            <span class="pill">Infinity &amp; NaN</span>
+          </div>
+          <p>
+            Помимо обычных цифр, к типу <code>Number</code> относятся три особых значения:
+          </p>
+          <ul class="feature-list">
+            <li><code>Infinity</code> — математическая бесконечность (например, при делении <code>1 / 0</code>).</li>
+            <li><code>-Infinity</code> — отрицательная бесконечность.</li>
+            <li><code>NaN</code> (Not a Number) — вычислительная ошибка, например при попытке умножить текст на число: <code>"привет" * 2</code>.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- РАЗДЕЛ 3: STRING -->
+    <section id="string">
+      <h2><span class="color-str">03.</span> Тип данных String (Строка)</h2>
+      <p class="section-desc">
+        Строка — это любой текст: от одной буквы до целой книги. В JavaScript любая строка обязательно заключается в кавычки.
+      </p>
+
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-header">
+            <span class="type-title color-str">String</span>
+            <span class="pill">typeof "Hi" === "string"</span>
+          </div>
+          <p>
+            В JS существуют <strong>три вида кавычек</strong>. Двойные и одинарные работают одинаково, а обратные позволяют встраивать переменные прямо внутрь текста.
+          </p>
+          <div class="code-box">
+            <span class="kw">const</span> <span class="var">str1</span> = <span class="str">"Двойные кавычки"</span>;<br>
+            <span class="kw">const</span> <span class="var">str2</span> = <span class="str">'Одинарные кавычки'</span>;<br>
+            <span class="kw">const</span> <span class="var">name</span> = <span class="str">"Жасмина"</span>;<br>
+            <span class="kw">const</span> <span class="var">hello</span> = <span class="str">`Привет, ${name}!`</span>;
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <span class="type-title color-str">Особенности строк</span>
+            <span class="pill">Склейка и длина</span>
+          </div>
+          <p>
+            Строки нельзя вычитать или делить, но их можно соединять (это называется <em>конкатенация</em>) и узнавать их длину:
+          </p>
+          <ul class="feature-list">
+            <li>Знак <code>+</code> склеивает строки: <code>"Java" + "Script"</code> даст <code>"JavaScript"</code>.</li>
+            <li>Свойство <code>.length</code> считает количество символов (включая пробелы).</li>
+            <li>Цифры в кавычках <code>"123"</code> — это уже строка, а не число.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- РАЗДЕЛ 4: СРАВНЕНИЕ -->
+    <section id="compare">
+      <h2>Главное отличие: <code>5</code> против <code>"5"</code></h2>
+      <p class="section-desc">
+        Новички часто путают число и строку с цифрой внутри. Посмотри, насколько по-разному они ведут себя в коде:
+      </p>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Выражение</th>
+              <th>Результат</th>
+              <th>Почему так происходит</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>5 + 5</code></td>
+              <td><code>10</code> (Number)</td>
+              <td>Оба значения — числа, происходит обычное сложение.</td>
+            </tr>
+            <tr>
+              <td><code>"5" + "5"</code></td>
+              <td><code>"55"</code> (String)</td>
+              <td>Оба значения — строки, JS просто склеивает два текста.</td>
+            </tr>
+            <tr>
+              <td><code>"5" + 5</code></td>
+              <td><code>"55"</code> (String)</td>
+              <td>Если хотя бы один элемент строка, знак <code>+</code> превращает всё в строку.</td>
+            </tr>
+            <tr>
+              <td><code>"10" - 4</code></td>
+              <td><code>6</code> (Number)</td>
+              <td>Минус работает только с числами, поэтому JS сам превращает <code>"10"</code> в число <code>10</code>.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- РАЗДЕЛ 5: ВСЕ 8 ТИПОВ -->
+    <section id="all-types">
+      <h2>Остальные типы данных в JS</h2>
+      <p class="section-desc">
+        Всего в JavaScript 8 типов данных. Кроме <code>Number</code> и <code>String</code>, в языке есть ещё 6:
+      </p>
+
+      <div class="types-grid">
+        <div class="mini-card">
+          <strong>Boolean</strong>
+          <span>Логический тип: только <code>true</code> (истина) или <code>false</code> (ложь).</span>
+        </div>
+        <div class="mini-card">
+          <strong>Undefined</strong>
+          <span>Значение не присвоено (переменная создана, но пуста).</span>
+        </div>
+        <div class="mini-card">
+          <strong>Null</strong>
+          <span>Специальное значение «ничего» или «пустота».</span>
+        </div>
+        <div class="mini-card">
+          <strong>BigInt</strong>
+          <span>Для работы с огромными целыми числами.</span>
+        </div>
+        <div class="mini-card">
+          <strong>Symbol</strong>
+          <span>Для создания уникальных идентификаторов.</span>
+        </div>
+        <div class="mini-card">
+          <strong>Object</strong>
+          <span>Сложные структуры: коллекции данных, массивы, функции.</span>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      Сделано на чистом HTML5 и CSS3 без единого скрипта.
+    </div>
+  </footer>
+
+</body>
+</html>
